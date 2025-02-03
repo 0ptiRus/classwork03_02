@@ -1,0 +1,30 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h1>Список игр</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Студия</th>
+            <th>Жанр</th>
+            <th>Дата выхода</th>
+            <th>Продажи</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var game in Model.Games)
+        {
+            <tr>
+                <td>@game.Title</td>
+                <td>@game.Studio</td>
+                <td>@game.Genre</td>
+                <td>@game.ReleaseDate.ToString("d")</td>
+                <td>@game.SalesCount</td>
+            </tr>
+        }
+    </tbody>
+</table>
