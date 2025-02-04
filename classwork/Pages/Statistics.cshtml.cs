@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace classwork.Pages
 {
-    [Authorize("IsAuthorized")]
+    [Authorize("IsAuthenticated")]
     public class StatisticsModel : PageModel
     {
         public void OnGet()

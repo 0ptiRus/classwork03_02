@@ -1,0 +1,37 @@
+﻿@page "{id:int}"
+@model classwork.Pages.EditModel
+@{
+}
+
+
+<form class="form-group" method="post">
+    <input type="hidden" asp-for="Game.Id" />
+    <input type="hidden" asp-for="Game.UserId" />
+    <div>
+        <label asp-for="Game.Title">Название</label>
+        <input asp-for="Game.Title" />
+        <span asp-validation-for="Game.Title" />
+    </div>
+    <div>
+        <label asp-for="Game.Studio">Студия</label>
+        <input asp-for="Game.Studio" />
+        <span asp-validation-for="Game.Studio" />
+    </div>
+    <div>
+        <label asp-for="Game.Genre">Жанр</label>
+        <input asp-for="Game.Genre" />
+        <span asp-validation-for="Game.Genre" />
+    </div>
+    <div>
+        <label asp-for="Game.ReleaseDate">Дата релиза</label>
+        <input asp-for="Game.ReleaseDate" />
+        <span asp-validation-for="Game.ReleaseDate" />
+    </div>
+    <div>
+        <label asp-for="Game.SalesCount">Продажи</label>
+        <input asp-for="Game.SalesCount" />
+        <span asp-validation-for="Game.SalesCount" />
+    </div>
+
+    <button>Создать</button>
+</form>

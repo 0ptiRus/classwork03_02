@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using classwork.Data;
 using classwork.Services;
+using Microsoft.AspNetCore.Authorization;
+using classwork.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +17,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<GameService>();
+builder.Services.AddScoped<IAuthorizationHandler, IsGameOwnerHandler>();
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy(
     "IsAuthenticated",
     policybuilder => policybuilder.RequireAuthenticatedUser());
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(
+    "CanManageGame",
+    policybuilder => policybuilder.AddRequirements(new IsGameOwnerRequirement()));
 
 var app = builder.Build();
 

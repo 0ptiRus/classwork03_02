@@ -17,12 +17,15 @@ namespace classwork.Services
         public GameService(ApplicationDbContext context)
         {
             this.context = context;
-            if (context.Games.Count() == 0 && context.Games is null)
-            {
-                context.Games.AddRange(data);
-            }
+            //if (context.Games.Count() == 0 && context.Games is null)
+            //{
+            //    context.Games.AddRange(data);
+            //    context.SaveChanges();
+            //}
         }
 
+        public async Task<Game> GetById(int id) => await context.Games.FindAsync(id);
+        public async Task<Game> GetOneByTitle(string title) => await context.Games.FirstOrDefaultAsync(g => g.Title == title);
         public async Task<IList<Game>> GetAll() => await context.Games.ToListAsync();
 
         public async Task<IList<Game>> GetByTitle(string title) => await context.Games.Where(g => g.Title == title).ToListAsync();
@@ -34,6 +37,39 @@ namespace classwork.Services
 
         public async Task<IList<Game>> Get3MostSold() => await context.Games.OrderByDescending(g => g.SalesCount).Take(3).ToListAsync();
         public async Task<IList<Game>> Get3LeastSold() => await context.Games.OrderBy(g => g.SalesCount).Take(3).ToListAsync();
+
+        public async Task<Game> Create(Game game)
+        {
+            Game search = await GetOneByTitle(game.Title);
+            if(search != null)
+            {
+                throw new Exception("Такая игра уже существует!");
+            }
+            await context.Games.AddAsync(game);
+            await context.SaveChangesAsync();
+            return game;
+        }
+
+        public async Task<IList<Game>> FillDb()
+        {
+            await context.AddRangeAsync(data);
+            await context.SaveChangesAsync();
+            return data;
+        }
+
+        public async Task<Game> Update(Game game)
+        {
+            context.Games.Update(game);
+            await context.SaveChangesAsync();
+            return game;
+        }
+
+        public async Task<bool> Remove(Game game)
+        {
+            context.Games.Remove(game);
+            await context.SaveChangesAsync();
+            return true;
+        }
 
     }
 }

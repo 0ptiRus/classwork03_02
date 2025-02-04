@@ -13,6 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
     }
 
+
     //protected override void OnModelCreating(ModelBuilder builder)
     //{
     //    builder.Entity<Game>().HasData(new Game { Id = 1, Title = "Cyberpunk 2077", Studio = "CD Projekt Red", Genre = "Action RPG", ReleaseDate = new DateTime(2020, 12, 10), SalesCount = 10000000 },

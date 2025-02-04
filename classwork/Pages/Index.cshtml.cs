@@ -3,10 +3,11 @@ using classwork.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace classwork.Pages;
 
-[AllowAnonymous]
+[Authorize("IsAuthenticated")]
 public class IndexModel : PageModel
 {
     private readonly GameService service;
@@ -20,5 +21,23 @@ public class IndexModel : PageModel
     public async void OnGet()
     {
         Games = await service.GetAll();
+
+        if(Games.Count == 0)
+        {
+            await service.FillDb();
+            Page();
+        }
+    }
+
+    public async Task<IActionResult> OnGetDeleteAsync(string title)
+    {
+        Game game = await service.GetOneByTitle(title);
+
+        if (game != null)
+        {
+            await service.Remove(game);
+        }
+
+        return RedirectToPage();
     }
 }
